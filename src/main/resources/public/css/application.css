@@ -1,0 +1,8 @@
+.result .duration {
+    padding: 15;
+    width: 25%;
+}
+.result .values {
+    padding: 15;
+    width: 75%;
+}
