@@ -27,11 +27,10 @@ Document.App = {
         $.post({
         url: 'sort',
         success: function(result, message, jqXHR) {
-        console.log(result);
             Document.App.renderResults(result);
         },
         data: JSON.stringify({ values: $('#values').val() }),
-        dataType: "application/json; charset=utf-8",
+        dataType: "json",
         processData:false,
         contentType: "application/json; charset=utf-8"
         });

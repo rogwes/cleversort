@@ -9,11 +9,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,20 +24,24 @@ public class MainController {
 
     private SorterService sorterService;
 
-    @RequestMapping(path = "/result", method = GET, produces = "application/json")
-    List<SortingResultModel> result() {
+    @RequestMapping(path = "/result", method = GET, produces = "application/json; charset=utf-8")
+    public List<SortingResultModel> result() {
 
-        return sorterService.getAllResults().stream()
-                .map(SortingResultModel::create)
-                .collect(Collectors.toList());
+        return getAllResults();
     }
 
-    @RequestMapping(path = "/sort", method = POST, consumes = "application/json; charset=utf-8",produces = "application/json; charset=utf-8")
-    List<SortingResultModel> sort(@RequestBody SortingParameterModel valuesModel) {
+    @RequestMapping(path = "/sort", method = POST, consumes = "application/json; charset=utf-8", produces = "application/json; charset=utf-8")
+    public List<SortingResultModel> sort(@RequestBody SortingParameterModel valuesModel) {
 
         sorterService.sortAndStoreResult(valuesModel.getValues());
 
-        return result();
+        return getAllResults();
+    }
+
+    private List<SortingResultModel> getAllResults() {
+        return sorterService.getAllResults().stream()
+                .map(SortingResultModel::create)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
